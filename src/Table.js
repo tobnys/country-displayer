@@ -87,11 +87,12 @@ export default class Table extends Component {
   }
 
   handleConversion(v){
+    console.log(this.state.rates[0][v])
     if(v === "SEK"){
       return this.state.conversionValue;
     }
     else {
-      return this.state.conversionValue*this.state.rates[0][v];
+      return Math.trunc(this.state.conversionValue*this.state.rates[0][v]);
     }
   }
 
