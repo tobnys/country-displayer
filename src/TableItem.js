@@ -5,7 +5,7 @@ export default class TableItem extends Component {
   render() {
 
     return (
-        <li>Name: {this.props.name} | Capital: | Population: | Currency: </li>
+        <li>Name: {this.props.name} | Capital: {this.props.capital} | Population: {this.props.population} | Currency: {this.props.currency} | Conversion: {this.props.conversion}</li>
     );
   }
 }
