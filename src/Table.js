@@ -13,6 +13,7 @@ export default class Table extends Component {
     })
     this.handleSearchFormChange = this.handleSearchFormChange.bind(this);
     this.handleConversionFormChange = this.handleConversionFormChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   // Inserting initial data
@@ -80,6 +81,38 @@ export default class Table extends Component {
     })
   }
 
+  handleSubmit(e){
+    e.preventDefault();
+    fetch(`https://restcountries.eu/rest/v2/name/${this.state.searchValue}`)
+    .then(res => {
+      if(res.status === 404){
+        return null;
+      }
+      return res.json();
+    }).then(data => {
+      // Validation layer
+      if(data !== null){
+        let newCountry = {
+          name: data[0].name,
+          capital: data[0].capital,
+          population: data[0].population,
+          currency: data[0].currencies[0].code
+        }
+        this.setState({
+          countries: [...this.state.countries, newCountry]
+        })
+      }
+      else {
+        console.log("No such country.")
+      }
+    })
+
+    // Clear the input on submit
+    this.setState({
+      searchValue: "",
+    })
+  }
+
   handleConversionFormChange(e){
     this.setState({
         conversionValue: e.target.value
@@ -87,7 +120,6 @@ export default class Table extends Component {
   }
 
   handleConversion(v){
-    console.log(this.state.rates[0][v])
     if(v === "SEK"){
       return this.state.conversionValue;
     }
@@ -103,10 +135,11 @@ export default class Table extends Component {
 
     return (
       <div className="main-table">
-        <form className="search-form">
+        <form className="search-form" onSubmit={this.handleSubmit}>
           <label>
               Search: <input type="text" name="search" value={this.state.searchValue} onChange={this.handleSearchFormChange}/>
           </label>
+          <input type="submit" name="submit" value="Add"/>
         </form>
         <form className="conversion-form">
         <label>
