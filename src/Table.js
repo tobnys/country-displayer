@@ -125,7 +125,14 @@ export default class Table extends Component {
     if (v === "SEK") {
       return this.state.conversionValue
     } else {
-      return Math.trunc(this.state.conversionValue * this.state.rates[0][v])
+      let value = this.state.rates[0][v]
+      if(value === undefined){
+        value = 0;
+      }
+      else {
+        console.log(this.state.rates[0])
+        return Math.trunc(this.state.conversionValue * value)
+      }
     }
   }
 
