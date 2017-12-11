@@ -17,7 +17,7 @@ export default class Table extends Component {
   }
 
   // Inserting initial data
-  componentWillMount() {
+  componentDidMount() {
     fetch("https://api.fixer.io/latest?base=SEK")
       .then(results => {
         return results.json()
@@ -130,7 +130,6 @@ export default class Table extends Component {
         value = 0;
       }
       else {
-        console.log(this.state.rates[0])
         return Math.trunc(this.state.conversionValue * value)
       }
     }
